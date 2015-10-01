@@ -55,4 +55,7 @@ class GOES(object):
 env = os.environ
 goes = GOES(env['PB_KEY'], env['PB_CHAN'])
 if goes.check_availability(env['USERNAME'], env['PASSWORD']):
+    print "Available!"
     goes.send_notification('https://goes-app.cbp.dhs.gov/')
+else:
+    print "Not Available!"
