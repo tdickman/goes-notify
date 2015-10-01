@@ -49,5 +49,7 @@ class GOES(object):
 
 env = os.environ
 goes = GOES(env['PB_KEY'], env['PB_CHAN'])
-if 'no available appointments' not in goes.check_availability(env['USERNAME'], env['PASSWORD']):
+resp = goes.check_availability(env['USERNAME'], env['PASSWORD'])
+print resp
+if 'no available appointments' not in resp:
     goes.send_notification('https://goes-app.cbp.dhs.gov/')
