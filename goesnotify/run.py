@@ -39,17 +39,20 @@ class GOES(object):
             'selectedEnrollmentCenter': 7820
         })
         soup = BeautifulSoup(r.text)
-        return soup.find('div', {'class': 'maincontainer'}).text
+        item = soup.find('div', {'class': 'maincontainer'})
+        if item and ('' in item.text):
+            return False
+        if soup.find('form', {'id': 'scheduleForm'}):
+            return True
+        raise Exception('Not sure...')
 
     def send_notification(self, link):
         '''Sends a notification for the given item, and then marks it as sent in firebase'''
-        self.pb_chan.push_link('GOES Availability Opened Up', 'http://kickfurther.com{}'.format(link))
+        self.pb_chan.push_link('GOES Availability Opened Up', 'https://goes-app.cbp.dhs.gov')
         print 'Sent notification for {}'.format(link)
 
 
 env = os.environ
 goes = GOES(env['PB_KEY'], env['PB_CHAN'])
-resp = goes.check_availability(env['USERNAME'], env['PASSWORD'])
-print resp
-if 'no available appointments' not in resp:
+if goes.check_availability(env['USERNAME'], env['PASSWORD']):
     goes.send_notification('https://goes-app.cbp.dhs.gov/')
