@@ -11,4 +11,4 @@ Note: This is hardcoded to the Austin center for now.
     - PB_CHAN = The pushbullet channel to post to (the tag name). This must have been created under your account.
     - USERNAME = The username for goes.
     - PASSWORD = The password for goes.
-2. Run the following: ```python kicknotify/run.py```
+2. Run the following: ```python goesnotify/run.py```
